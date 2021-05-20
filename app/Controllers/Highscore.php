@@ -2,13 +2,13 @@
 
 namespace App\Controllers;
 
-use App\Models\NamaModel; //mengambil Model pada folder Model dengan menggunakan namespace
+use App\Models\Highscore_model;
 
-class Home extends BaseController {
-	protected $namaModel;
+class Highscore extends BaseController {
+	protected $highscore;
 
 	public function __construct() {
-		$this->namaModel = new NamaModel(); //untuk memanggil model sekali dan bisa digunakan berkali2
+		$this->highscore = new Highscore_model(); //untuk memanggil model sekali dan bisa digunakan berkali2
 	}
 
 	public function index() {
@@ -21,5 +21,22 @@ class Home extends BaseController {
 		
 		// return view('index', $data); //memanggil view dengan mengirimkan data
 		return view('index', $data);
+	}
+
+	public function login() {
+		$data = [
+			'title' => 'Home'
+		];
+		return view('login', $data);
+	}
+	
+	public function login_process() {
+		dd($this->request->('email'));
+		$data = [
+			'title' => 'Home'
+		];
+		
+		return view('login', $data);
+
 	}
 }

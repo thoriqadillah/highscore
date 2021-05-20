@@ -33,7 +33,7 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 // $routes->get('/', 'Home::index');
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Highscore::index');
 
 //semisal kita punya method detail untuk melihat suatu detail dari data pada Controller
 //tapi juga menggunakan getTabel() pada method dengan $slug sebagai identifier agar spesifik
