@@ -33,9 +33,8 @@ class Highscore_model extends Model {
         }
 
         return false;
-
-        
     }
+
     public function can_login_admin($email, $password) {
         $session = \Config\Services::session();
         $admin = $this->find($email);
@@ -51,10 +50,7 @@ class Highscore_model extends Model {
             return true;
         }
 
-        return false;
-
-        
+        return false; 
     }
-
 
 }
