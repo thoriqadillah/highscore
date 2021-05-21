@@ -35,22 +35,4 @@ class Users_model extends Model {
         return false;
     }
 
-    public function can_login_admin($email, $password) {
-        $session = \Config\Services::session();
-        $admin = $this->find($email);
-
-        if ($admin && $password == $admin['PASSWORD']) {
-            $data_session = [
-                'username' => $admin['username'],
-                'logged_in' => TRUE,
-                'level' => 'admin'
-            ];
-            $session->set($data_session);
-
-            return true;
-        }
-
-        return false; 
-    }
-
 }
