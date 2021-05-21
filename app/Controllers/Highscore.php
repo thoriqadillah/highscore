@@ -4,10 +4,10 @@ namespace App\Controllers;
 use App\Models\Highscore_model;  //mengambil Model pada folder Model dengan menggunakan namespace
 
 class Highscore extends BaseController {
-	protected $namaModel;
+	protected $highscore_model;
 
 	public function __construct() {
-		$this->namaModel = new Highscore_model(); //untuk memanggil model sekali dan bisa digunakan berkali2
+		$this->higscore_model = new Highscore_model(); //untuk memanggil model sekali dan bisa digunakan berkali2
 	}
 
 	public function index() {
