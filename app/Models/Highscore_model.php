@@ -5,9 +5,9 @@ namespace App\Models;
 use CodeIgniter\Model;
 
 class Highscore_model extends Model {
-    protected $table      = 'nama_tabel'; //diisi nama tabel sesuai keinginan
-    protected $primaryKey = 'nama_id'; //diisi nama primary key dari tabel tersebut
-    protected $useTimestamps = true; //digunakan ketika kita ingin menggunakan fitur otomatis pengisian data pada kolom created_at, updated_at pada tabel kita
+    protected $table      = 'users'; //diisi nama tabel sesuai keinginan
+    protected $primaryKey = 'email'; //diisi nama primary key dari tabel tersebut
+    // protected $useTimestamps = true; //digunakan ketika kita ingin menggunakan fitur otomatis pengisian data pada kolom created_at, updated_at pada tabel kita
 
     public function getTable($slug = false) { //semisal untuk mengambil row spesifik tabel, bisa menggunakan slug (jika ada)
         if ($slug == false) { //jika tidak ada, maka kembalikan semua isi tabel
@@ -20,8 +20,41 @@ class Highscore_model extends Model {
         //$this->find($id); 
     }
 
-    public function login_user($email, $password) {
+    public function can_login_user($email, $password) {
+        $session = \Config\Services::session();
+        $user = $this->find($email);
+
+        if ($user && $password == $user['PASSWORD']) {
+            $data_session = [
+                'username' => $user['username'],
+                'logged_in' => TRUE,
+                'level' => 'user'
+            ];
+            $session->set($data_session);
+            return true;
+        }
+
+        return false;
+
         
+    }
+    public function can_login_admin($email, $password) {
+        $session = \Config\Services::session();
+        $admin = $this->find($email);
+
+        if ($admin && $password == $admin['PASSWORD']) {
+            $data_session = [
+                'username' => $admin['username'],
+                'logged_in' => TRUE,
+                'level' => 'admin'
+            ];
+            $session->set($data_session);
+
+            return true;
+        }
+
+        return false;
+
         
     }
 
