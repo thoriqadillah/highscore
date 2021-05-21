@@ -2,9 +2,9 @@
 
 namespace App\Models;
 use CodeIgniter\Model;
-class Highscore_model extends Model {
-    protected $table      = ''; //diisi nama tabel sesuai keinginan
-    protected $primaryKey = ''; //diisi nama primary key dari tabel tersebut
+class Users_model extends Model {
+    protected $table      = 'users'; //diisi nama tabel sesuai keinginan
+    protected $primaryKey = 'email'; //diisi nama primary key dari tabel tersebut
     protected $useTimestamps = true; //digunakan ketika kita ingin menggunakan fitur otomatis pengisian data pada kolom created_at, updated_at pada tabel kita
 
     public function getTable($slug = false) { //semisal untuk mengambil row spesifik tabel, bisa menggunakan slug (jika ada)

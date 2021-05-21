@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\Highscore_model;  //mengambil Model pada folder Model dengan menggunakan namespace
+use App\Models\Users_model;  //mengambil Model pada folder Model dengan menggunakan namespace
 
 class Highscore extends BaseController {
-	protected $highscore_model;
+	protected $users_model;
 
 	public function __construct() {
-		$this->higscore_model = new Highscore_model(); //untuk memanggil model sekali dan bisa digunakan berkali2
+		$this->users_model = new Users_model(); //untuk memanggil model sekali dan bisa digunakan berkali2
 	}
 
 	public function index() {
