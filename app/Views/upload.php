@@ -2,6 +2,6 @@
 
 <?= $this->section('content'); ?>
 
-<h1>Halaman Buat tamu</h1>
+<h1>Halaman upload</h1>
 
 <?= $this->endSection(); ?>
