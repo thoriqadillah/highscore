@@ -4,7 +4,7 @@ namespace App\Controllers;
 use App\Models\Users_model;  //mengambil Model pada folder Model dengan menggunakan namespace
 use App\Models\Admin_model;  
 
-class Highscore extends BaseController {
+class Login extends BaseController {
 	protected $users_model;
 	protected $admin_model;
 
@@ -19,7 +19,7 @@ class Highscore extends BaseController {
 			'title' => 'Home' 
 		];
 
-        
+        return view('login', $data);
 	}
 
     //buat ngeproses login

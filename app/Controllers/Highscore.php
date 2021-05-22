@@ -11,54 +11,70 @@ class Highscore extends BaseController {
 	protected $admin_model;
 	protected $post_model;
 	protected $games_model;
+	protected $session;
 
 	public function __construct() {
 		$this->users_model = new Users_model(); //untuk memanggil model sekali dan bisa digunakan berkali2
 		$this->admin_model = new Admin_model();
 		$this->post_model = new Post_model();
 		$this->games_model = new Games_model();
+
+		$this->session = \Config\Services::session();
+
+		\helper('url');
 	}
 
 	//ini buat halaman tamu
 	public function index() {
 		$data = [
-			'title' => 'Home' //sebagai judul page, dikirim ke <title> pada view
+			'title' => 'Guests' //sebagai judul page, dikirim ke <title> pada view
 			//untuk memanggil model bisa dilempar ke $data sebagai key dan value, kemudian dikirim data ke view dan dilooping menggunakan foreach
 			//'namaVar' => '$this->namaModel->namaMethod();'
 		];
 
-		
 		// return view('index', $data); //memanggil view dengan mengirimkan data
 		return view('index', $data);
 	}
 
-	//buat validasi aja, misal kalo belum login nanti gabisa upload, harus login dulu
     public function upload() {
-        //misal user pengen upload, cek dulu dia udah logged_in belum di session nya
-        //jika logged in true, yaudah diarahin ke halaman upload
-        //kalo false ke halaman login
+		// $this->users_model->can_login_user('coba@coba.com', 'coba');
+		// dd($this->session->get('logged_in'));
+		// session_destroy();
+		if ($this->session->get('logged_in') == true && $this->session->get('level') == 'user') {
+			$data = [
+				'title' => 'Upload'
+			];
+	
+			return view('upload', $data);	
+		} 
+
+		return redirect()->to('/login');
     }
 	
 	//buat nampilin halaman home buat user
 	public function home() {
-		$data = [
-			'title' => 'Home' //sebagai judul page, dikirim ke <title> pada view
-		];
-		//buat validasi lagi biar gaboleh masuk kalo misal maksa masuk halaman controller/function lewat url bar
-		
-		//cek dulu dia udah logged_in belum di session nya
-		//jika logged in true, yaudah diarahin ke halaman home buat user
-		//kalo false ke halaman login
+		if ($this->session->get('logged_in') && $this->session->get('level') == 'user') {
+			$data = [
+				'title' => 'Home' //sebagai judul page, dikirim ke <title> pada view
+			];
+
+			return view('home', $data);	
+		}
+
+		return redirect()->to('/login');
 	
 	}
 
 	//buat nampilin halaman admin
 	public function admin() {
-		$data = [
-			'title' => 'Home' //sebagai judul page, dikirim ke <title> pada view
-		];
-		//ini juga dibuat validasinya juga ya, sama kaya user
+		if ($this->session->get('logged_in') && $this->session->get('level') == 'admin') {
+			$data = [
+				'title' => 'Admin' //sebagai judul page, dikirim ke <title> pada view
+			];
 
+			return view('admin', $data);	
+		}
 
+		return redirect()->to('/login');
 	}
 }
