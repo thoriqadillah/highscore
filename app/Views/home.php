@@ -2,7 +2,7 @@
 
 <?= $this->section('content'); ?>
 
-
+<h1> Halaman home</h1>
 <div class="container1">
 <h1 align="center">Welcome to World's Rank Game!</h1>
 
