@@ -35,11 +35,7 @@
 .btn:active {
   background-color: #492227;
 
-}
-    
-    </style>
-    
-    <div class="container" align="center">
+
     <h1>World's Rank Game Registration</h1>
     <form >
       <div class="mb-3">
@@ -60,4 +56,4 @@
       <br>
       <button type="submit" class="btn btn-primary">Sign Up</button>
     </form>
-</div>
+
