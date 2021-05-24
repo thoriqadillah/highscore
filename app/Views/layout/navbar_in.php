@@ -12,8 +12,8 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Games</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link btn btn-primary" role="button" href="/login">Login</a>
+                <li class="nav-item active">
+                    <a class="nav-link btn btn-primary" role="button" href="/highscore/upload">Post</a>
                 </li>
             </ul>
         </div>
