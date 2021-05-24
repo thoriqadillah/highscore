@@ -7,10 +7,12 @@ use App\Models\Admin_model;
 class Login extends BaseController {
 	protected $users_model;
 	protected $admin_model;
+    protected $req;
 
 	public function __construct() {
 		$this->users_model = new Users_model(); //untuk memanggil model sekali dan bisa digunakan berkali2
 		$this->admin_model = new Admin_model();
+        $this->req = \service('request');
 	}
 
     //tampilin halaman login
@@ -24,15 +26,16 @@ class Login extends BaseController {
 
     //buat ngeproses login
     public function signin() {
-        //tutorial, kalo udah selesai mungkin bisa dihapus, atau dicut dimana gitu
-        //ambil kiriman data email itu buat email user atau username admin
-        //ambil juga passwordnya. Jadi nanti action diarahin ke sini
+        $email = $this->req->getVar("email");
+        $pass = $this->req->getVar("pass");
 
-        //manfaatin function can_login dari user_model sama admin_model
-        //kalo hasilnya true buat function user, redirect ke halaman home buat user (index buat tamu)
-        //kalo hasilnya true buat function user, redirect ke halaman admin yang nanti dibuat dila
+        if ($this->users_model->can_login_user($email, $pass)) {
+            return \redirect()->to('/home');
+        } else if ($this->admin_model->can_login_admin($email, $pass)) {
+            return \redirect()->to('/admin');
+        }
 
-        //untuk nanti buat ngakses halaman admin, nanti buat controller admin lagi ya. Buat user pake highscore aja controllernya
+        return \redirect()->to('/login');
     }
 
     

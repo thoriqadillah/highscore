@@ -7,13 +7,15 @@ use App\Models\Admin_model;
 class Registration extends BaseController {
 	protected $users_model;
 	protected $admin_model;
+	protected $req;
 
 	public function __construct() {
 		$this->users_model = new Users_model(); //untuk memanggil model sekali dan bisa digunakan berkali2
-		$this->admin_model = new Admin_model();
+		$this->admin_model = new Admin_model();  
+		$this->req = \service('request');  
 	}
 
-    //tampilin halaman login
+    //tampilin halaman sign up
 	public function index() {
 		$data = [ //jangan lupa $data nanti dikirimkan ke return view ya
 			'title' => 'Sign Up' 
@@ -22,17 +24,23 @@ class Registration extends BaseController {
         return view('signup', $data);
 	}
 
-    //buat ngeproses login
-    public function signin() {
-        //tutorial, kalo udah selesai mungkin bisa dihapus, atau dicut dimana gitu
-        //ambil kiriman data email itu buat email user atau username admin
-        //ambil juga passwordnya. Jadi nanti action diarahin ke sini
+    //buat ngeproses sign up
+    public function signup() {
+        $email = $this->req->getVar('email');
+		$username = $this->req->getVar('username');
+        $pass = $this->req->getVar('pass');
+        $re_pass = $this->req->getVar('repass');
 
-        //manfaatin function can_login dari user_model sama admin_model
-        //kalo hasilnya true buat function user, redirect ke halaman home buat user (index buat tamu)
-        //kalo hasilnya true buat function user, redirect ke halaman admin yang nanti dibuat dila
+		if ($pass == $re_pass) {
+			$this->users_model->save([
+				'email' => $email,
+				'username' => $username,
+				'password' => $pass
+			]);
+			return \redirect()->to('/login');
+		}
 
-        //untuk nanti buat ngakses halaman admin, nanti buat controller admin lagi ya. Buat user pake highscore aja controllernya
+        return redirect()->to('/registration');
     }
 
     
