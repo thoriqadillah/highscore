@@ -35,6 +35,9 @@ $routes->setAutoRoute(true);
 // $routes->get('/', 'Home::index');
 $routes->get('/', 'Highscore::index');
 $routes->get('/login', 'Login::index');
+$routes->get('/registration', 'Registration::index');
+$routes->get('/home', 'Highscore::home');
+$routes->get('/admin', 'Highscore::admin');
 
 //semisal kita punya method detail untuk melihat suatu detail dari data pada Controller
 //tapi juga menggunakan getTabel() pada method dengan $slug sebagai identifier agar spesifik
