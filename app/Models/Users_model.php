@@ -4,8 +4,9 @@ namespace App\Models;
 use CodeIgniter\Model;
 class Users_model extends Model {
     protected $table      = 'users'; //diisi nama tabel sesuai keinginan
-    protected $primaryKey = 'email'; //diisi nama primary key dari tabel tersebut
-    protected $useTimestamps = true; //digunakan ketika kita ingin menggunakan fitur otomatis pengisian data pada kolom created_at, updated_at pada tabel kita
+    protected $primaryKey = 'email';
+    protected $useTimestamps = true;
+    protected $allowedFields = ['email', 'username', 'password'];
 
     public function getTable($slug = false) { //semisal untuk mengambil row spesifik tabel, bisa menggunakan slug (jika ada)
         if ($slug == false) { //jika tidak ada, maka kembalikan semua isi tabel
@@ -20,9 +21,9 @@ class Users_model extends Model {
 
     public function can_login_user($email, $password) {
         $session = \Config\Services::session();
-        $user = $this->find($email);
+        $user = $this->first($email);
 
-        if ($user && $password == $user['PASSWORD']) {
+        if ($user && $password == $user["password"]) {
             $data_session = [
                 'username' => $user['username'],
                 'logged_in' => TRUE,
