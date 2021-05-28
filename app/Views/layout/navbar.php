@@ -15,7 +15,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <?php foreach($games as $g) : ?>
-                        <a class="dropdown-item" href="/games/<?= $g['id']; ?>"><?= $g['name']; ?></a>
+                        <a class="dropdown-item" href="/highscore/games/<?= $g['id']; ?>"><?= $g['name']; ?></a>
                     <?php endforeach ?>
                     </div>
                 </li>
