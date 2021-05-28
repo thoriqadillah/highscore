@@ -2,23 +2,29 @@
 
 namespace App\Controllers;
 use App\Models\Users_model;  //mengambil Model pada folder Model dengan menggunakan namespace
-use App\Models\Admin_model;  
+use App\Models\Admin_model;
+use App\Models\Games_model;
 
 class Registration extends BaseController {
 	protected $users_model;
 	protected $admin_model;
 	protected $req;
+	protected $games_model;
 
 	public function __construct() {
 		$this->users_model = new Users_model(); //untuk memanggil model sekali dan bisa digunakan berkali2
 		$this->admin_model = new Admin_model();  
-		$this->req = \service('request');  
+		$this->games_model = new Games_model();
+        $this->req = \service('request');
+
+        $this->games = $this->games_model->findAll(); 
 	}
 
     //tampilin halaman sign up
 	public function index() {
 		$data = [ //jangan lupa $data nanti dikirimkan ke return view ya
-			'title' => 'Sign Up' 
+			'title' => 'Sign Up',
+			'games' => $this->games 
 		];
 
         return view('signup', $data);
