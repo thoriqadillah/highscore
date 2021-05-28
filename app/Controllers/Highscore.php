@@ -14,6 +14,7 @@ class Highscore extends BaseController {
 	protected $session;
 	protected $req;
 	protected $games;
+	protected $validation;
 
 	public function __construct() {
 		$this->users_model = new Users_model(); //untuk memanggil model sekali dan bisa digunakan berkali2
@@ -26,6 +27,7 @@ class Highscore extends BaseController {
 		$this->req = \service('request');
 
 		$this->games = $this->games_model->findAll();
+		$this->validation =  \Config\Services::validation();
 	}
 
 	//ini buat halaman tamu
@@ -95,5 +97,12 @@ class Highscore extends BaseController {
 
 	public function games($id) {
 		//cara kerjanya sama kaya admin, cuma ditambahin di $where_condition 'id' = $id
+	}
+
+	public function logout() {
+		$array_items = ['username', 'logged_in', 'level'];
+		$this->session->remove($array_items);
+		
+		return redirect()->to('/');
 	}
 }
