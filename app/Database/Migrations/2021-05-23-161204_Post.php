@@ -11,8 +11,7 @@ class Post extends Migration {
 		$this->forge->addField([
             'id'          => [
                 'type'           => 'INT',
-                'constraint'     => 20,
-                'unsigned'       => true,
+                'constraint'     => 10,
                 'auto_increment' => true,
             ],
             'image'       => [
@@ -27,6 +26,14 @@ class Post extends Migration {
                 'type' => 'VARCHAR',
                 'constraint' => '100'
             ],
+            'verified' => [
+                'type' => 'BOOLEAN',
+                'default' => false
+            ],
+            'game_id' => [
+                'type'      => 'INT',
+                'unasigned' => true
+            ],
 			'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true,
@@ -38,7 +45,8 @@ class Post extends Migration {
         ]);
 
         $this->forge->addKey('id', true);
-        $this->forge->addField('CONSTRAINT FOREIGN KEY (user_email) REFERENCES users(email)');
+        // $this->forge->addForeignKey('game_id', 'games', 'id');
+        $this->forge->addForeignKey('user_email', 'users', 'email');
         $this->forge->createTable('post');
 	}
 

@@ -12,7 +12,6 @@ class Games extends Migration {
             'id'          => [
                 'type'           => 'INT',
                 'constraint'     => 10,
-                'unsigned'       => true,
                 'auto_increment' => true,
             ],
             'name'       => [
