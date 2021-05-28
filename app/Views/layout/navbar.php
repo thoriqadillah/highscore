@@ -9,8 +9,15 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Games</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Games
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <?php foreach($games as $g) : ?>
+                        <a class="dropdown-item" href="/games/<?= $g['id']; ?>"><?= $g['name']; ?></a>
+                    <?php endforeach ?>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link btn btn-primary" role="button" href="/login">Login</a>
