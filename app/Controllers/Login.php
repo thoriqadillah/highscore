@@ -10,6 +10,7 @@ class Login extends BaseController {
 	protected $admin_model;
     protected $games_model;
     protected $req;
+    protected $validation;
 
 	public function __construct() {
 		$this->users_model = new Users_model(); //untuk memanggil model sekali dan bisa digunakan berkali2
@@ -18,13 +19,17 @@ class Login extends BaseController {
         $this->req = \service('request');
 
         $this->games = $this->games_model->findAll();
+
+        $this->validation =  \Config\Services::validation();
 	}
 
     //tampilin halaman login
 	public function index() {
+        \session();
 		$data = [ //jangan lupa $data nanti dikirimkan ke return view ya
 			'title' => 'Home',
-            'games' => $this->games
+            'games' => $this->games,
+            'validation' => $this->validation
 		];
 
         return view('login', $data);
@@ -33,7 +38,24 @@ class Login extends BaseController {
     //buat ngeproses login
     public function signin() {
         $email = $this->req->getVar("email");
-        $pass = $this->req->getVar("pass");
+        $pass = $this->req->getVar("password");
+
+        if(!$this->validate([
+            'email' => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => '{field} tidak boleh kosong'
+				]
+			],
+			'password' => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => '{field} tidak boleh kosong'
+				]
+			]
+        ])) {
+			return redirect()->to('/login')->withInput()->with('validation', $this->validation);
+		}
 
         if ($this->users_model->can_login_user($email, $pass)) {
             return \redirect()->to('/home');
