@@ -15,7 +15,7 @@ class Post_model extends Model {
     }
     
     public function get_post($where) {
-        $this->builder->select('image', 'score', 'user_email', 'game_id')
+        $this->builder->select('image', 'score', 'username')
         ->join('users', 'user.id = post.user_id')
         ->join('games', 'games.id = post.game_id')
         ->where($where)
@@ -27,7 +27,7 @@ class Post_model extends Model {
     }
 
     public function get_post_by_game($where) {
-        $this->builder->select('image', 'score', 'user_email', 'game_id')
+        $this->builder->select('image', 'score', 'username')
         ->join('users', 'user.id = post.user_id')
         ->join('games', 'games.id = post.game_id')
         ->where($where)
