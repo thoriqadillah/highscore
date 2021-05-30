@@ -22,7 +22,7 @@
       <tr>
         <th scope="row"><?= $i++; ?></th>
         <td><?= $tampil['username']; ?></td>
-        <td><?= $tampil['image']></td>
+        <td><?= $tampil['image'];?></td>
         <td><?= $tampil['score']; ?></td>
         <td><?= $tampil['game_id']; ?></td>
       </tr>
