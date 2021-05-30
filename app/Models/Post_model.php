@@ -30,6 +30,7 @@ class Post_model extends Model {
         ->join('users', 'user.id = post.user_id')
         ->join('games', 'games.id = post.game_id')
         ->where($where)
+        ->groupBy('games')
         ->orderBy('score', 'DESC');
         $query = $this->builder->get();
 
@@ -41,7 +42,6 @@ class Post_model extends Model {
         ->join('users', 'user.id = post.user_id')
         ->join('games', 'games.id = post.game_id')
         ->where($where)
-        ->groupBy('games')
         ->orderBy('score', 'DESC');
         $query = $this->builder->get();
 
