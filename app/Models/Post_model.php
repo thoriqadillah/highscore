@@ -15,10 +15,11 @@ class Post_model extends Model {
     }
     
     public function get_post($where) {
-        $this->builder->select('image', 'score', 'username')
+        $this->builder->select('image', 'score', 'username', 'game_id', 'verified', 'name')
         ->join('users', 'users.email = post.user_email')
+        ->join('games', 'games.id = post.game_id')
         ->where($where)
-        ->groupBy('games')
+        ->groupBy('name')
         ->orderBy('score', 'DESC');
         $query = $this->builder->get();
 
@@ -26,7 +27,7 @@ class Post_model extends Model {
     }
 
     public function get_post_by_game($where) {
-        $this->builder->select('image', 'score', 'username')
+        $this->builder->select('image', 'score', 'username', 'game_id', 'verified', 'name')
         ->join('users', 'users.email = post.user_email')
         ->where($where)
         ->orderBy('score', 'DESC');
