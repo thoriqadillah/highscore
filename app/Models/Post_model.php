@@ -36,4 +36,16 @@ class Post_model extends Model {
         return $query;
     }
 
+    public function get_post_by_game($where) {
+        $this->builder->select('image', 'score', 'user_email', 'game_id')
+        ->join('users', 'user.id = post.user_id')
+        ->join('games', 'games.id = post.game_id')
+        ->where($where)
+        ->groupBy('games')
+        ->orderBy('score', 'DESC');
+        $query = $this->builder->get();
+
+        return $query;
+    }
+
 }
