@@ -12,6 +12,9 @@ class Highscore extends BaseController {
 	protected $post_model;
 	protected $games_model;
 	protected $session;
+	protected $req;
+	protected $games;
+	protected $validation;
 
 	public function __construct() {
 		$this->users_model = new Users_model(); //untuk memanggil model sekali dan bisa digunakan berkali2
@@ -21,43 +24,52 @@ class Highscore extends BaseController {
 
 		$this->session = \Config\Services::session();
 
-		\helper('url');
+		$this->req = \service('request');
+
+		$this->games = $this->games_model->findAll();
+		$this->validation =  \Config\Services::validation();
 	}
 
 	//ini buat halaman tamu
 	public function index() {
+		//bagian sini juga ngerjain kaya di function admin
+
 		$data = [
-			'title' => 'Guests' //sebagai judul page, dikirim ke <title> pada view
+			'title' => 'Guests', //sebagai judul page, dikirim ke <title> pada view
+			'games' => $this->games
 			//untuk memanggil model bisa dilempar ke $data sebagai key dan value, kemudian dikirim data ke view dan dilooping menggunakan foreach
 			//'namaVar' => '$this->namaModel->namaMethod();'
 		];
-
+		
 		// return view('index', $data); //memanggil view dengan mengirimkan data
 		return view('index', $data);
 	}
-
+	
     public function upload() {
-		// $this->users_model->can_login_user('coba@coba.com', 'coba');
-		// dd($this->session->get('logged_in'));
-		// session_destroy();
 		if ($this->session->get('logged_in') == true && $this->session->get('level') == 'user') {
 			$data = [
-				'title' => 'Upload'
+				'title' => 'Upload',
+				'session_data' => $this->session->get(),
+				'games' => $this->games
 			];
-	
+			
 			return view('upload', $data);	
 		} 
-
+		
 		return redirect()->to('/login');
     }
 	
 	//buat nampilin halaman home buat user
 	public function home() {
-		if ($this->session->get('logged_in') && $this->session->get('level') == 'user') {
-			$data = [
-				'title' => 'Home' //sebagai judul page, dikirim ke <title> pada view
-			];
+		//bagian sini juga ngerjain kaya di function admin
 
+		if ($this->session->get('logged_in') == true && $this->session->get('level') == 'user') {
+			$data = [
+				'title' => 'Home', //sebagai judul page, dikirim ke <title> pada view
+				'session_data' => $this->session->get(),
+				'games' => $this->games
+			];
+			
 			return view('home', $data);	
 		}
 
@@ -67,14 +79,30 @@ class Highscore extends BaseController {
 
 	//buat nampilin halaman admin
 	public function admin() {
+		$where_condition = ['verified' => false];
+		$post_data = $this->post_model->get_post($where_condition); //post data hanya menampilkan image, score, dan username
+		
 		if ($this->session->get('logged_in') && $this->session->get('level') == 'admin') {
 			$data = [
-				'title' => 'Admin' //sebagai judul page, dikirim ke <title> pada view
+				'title' => 'Admin', //sebagai judul page, dikirim ke <title> pada view
+				'session_data' => $this->session->get(),
+				'posts' => $post_data,
+				'games' => $this->games
 			];
-
-			return view('admin', $data);	
+			return view('admin/admin', $data);	
 		}
 
 		return redirect()->to('/login');
+	}
+
+	public function games($id) {
+		//cara kerjanya sama kaya admin, cuma ditambahin di $where_condition 'id' = $id
+	}
+
+	public function logout() {
+		$array_items = ['username', 'logged_in', 'level'];
+		$this->session->remove($array_items);
+		
+		return redirect()->to('/');
 	}
 }

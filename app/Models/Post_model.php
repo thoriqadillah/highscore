@@ -4,18 +4,36 @@ namespace App\Models;
 use CodeIgniter\Model;
 class Post_model extends Model {
     protected $table      = 'post'; //diisi nama tabel sesuai keinginan
-    protected $primaryKey = 'id'; //diisi nama primary key dari tabel tersebut
-    protected $useTimestamps = true; //digunakan ketika kita ingin menggunakan fitur otomatis pengisian data pada kolom created_at, updated_at pada tabel kita
+    protected $useTimestamps = true;
+    protected $allowedFields = ['image', 'score', 'user_id'];
+    protected $builder;
+    protected $db;
 
-    public function getTable($slug = false) { //semisal untuk mengambil row spesifik tabel, bisa menggunakan slug (jika ada)
-        if ($slug == false) { //jika tidak ada, maka kembalikan semua isi tabel
-            return $this->findAll();
-        }
+    public function __construct() {
+        $this->db      = \Config\Database::connect();
+        $this->builder = $this->db->table('post');
+    }
+    
+    public function get_post($where) {
+        $this->builder->select('image', 'score', 'username', 'game_id', 'verified', 'name')
+        ->join('users', 'users.email = post.user_email')
+        ->join('games', 'games.id = post.game_id')
+        ->where($where)
+        ->groupBy('name')
+        ->orderBy('score', 'DESC');
+        $query = $this->builder->get();
 
-        return $this->where(['slug' => $slug])->first(); //mengambil data tabel dengan klausa where, dan ambil hasil pertama saja
-        
-        //atau, jika ingin mengembalikan single row dengan id nya, parameternya bisa diganti dengan id, kemudian
-        //$this->find($id); 
+        return $query;
+    }
+
+    public function get_post_by_game($where) {
+        $this->builder->select('image', 'score', 'username', 'game_id', 'verified', 'name')
+        ->join('users', 'users.email = post.user_email')
+        ->where($where)
+        ->orderBy('score', 'DESC');
+        $query = $this->builder->get();
+
+        return $query;
     }
 
 }

@@ -2,23 +2,29 @@
 
 <?= $this->section('content'); ?>
 
-<div class="container" align="center">
+<div class="row mt-5">
+  <div class="col-6">
     <h1>World's Rank Game</h1>
-    <form >
+    <br>
+    <form action="/login/signin" method="POST">
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Username</label>
-        <input type="username" class="form-control" id="exampleInputEmail1" aria-describedby="usernameHelp">
-        
+        <label for="exampleInputEmail1" class="form-label" >Email</label>
+        <input type="email" class="form-control <?= ($validation->hasError('email') ? 'is-invalid' : '' ); ?>" id="email" name="email" aria-describedby="usernameHelp">
+        <div class="invalid-feedback">
+          <?= $validation->getError('email'); ?>
+        </div>
       </div>
-      <br> 
       <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
+        <label for="exampleInputPassword1" class="form-label" >Password</label>
+        <input type="password" class="form-control <?= ($validation->hasError('password') ? 'is-invalid' : '' ); ?>" id="password" name="password">
+        <div class="invalid-feedback">
+          <?= $validation->getError('password'); ?>
+        </div>
       </div>
-      
-      <br>
       <button type="submit" class="btn btn-primary">Log In</button>
     </form>
+    <p>Belum punya akun? Daftar <a href="/registration/index">di sini</a></p>
+  </div>
 </div>
 
 <?= $this->endSection(); ?>
