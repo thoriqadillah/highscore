@@ -80,7 +80,7 @@ class Highscore extends BaseController {
 	//buat nampilin halaman admin
 	public function admin() {
 		$where_condition = ['verified' => false];
-		$post_data = $this->post_model->get_post($where_condition);
+		$post_data = $this->post_model->get_post($where_condition); //post data hanya menampilkan image, score, dan username
 		
 		if ($this->session->get('logged_in') && $this->session->get('level') == 'admin') {
 			$data = [
