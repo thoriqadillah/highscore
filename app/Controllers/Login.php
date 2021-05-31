@@ -37,7 +37,8 @@ class Login extends BaseController {
 
     //buat ngeproses login
     public function signin() {
-        $email = $this->req->getVar("email");
+        $email_user = $this->req->getVar("email");
+        $email_admin = $this->req->getVar("email");
         $pass = $this->req->getVar("password");
 
         if(!$this->validate([
@@ -57,10 +58,10 @@ class Login extends BaseController {
 			return redirect()->to('/login')->withInput()->with('validation', $this->validation);
 		}
 
-        if ($this->users_model->can_login_user($email, $pass)) {
-            return \redirect()->to('/home');
-        } else if ($this->admin_model->can_login_admin($email, $pass)) {
+        if ($this->admin_model->can_login_admin($email_admin, $pass)) {
             return \redirect()->to('/admin');
+        } else if ($this->users_model->can_login_user($email_user, $pass)) {
+            return \redirect()->to('/home');
         }
 
         return \redirect()->to('/login');

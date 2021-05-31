@@ -9,7 +9,7 @@
     <form action="/login/signin" method="POST">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label" >Email</label>
-        <input type="email" class="form-control <?= ($validation->hasError('email') ? 'is-invalid' : '' ); ?>" id="email" name="email" aria-describedby="usernameHelp">
+        <input type="text" class="form-control <?= ($validation->hasError('email') ? 'is-invalid' : '' ); ?>" id="email" name="email" aria-describedby="usernameHelp">
         <div class="invalid-feedback">
           <?= $validation->getError('email'); ?>
         </div>

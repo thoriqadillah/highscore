@@ -2,8 +2,7 @@
 
 <?= $this->section('content'); ?>
 
-<h1>Halaman Buat tamu</h1>
-<div class="container">
+
 <h1 align="center">Leaderboard Dinosaur Games</h1>
 
 <table class="table">
@@ -18,13 +17,13 @@
     </thead>
     <tbody>
       <?php $i = 1; ?>
-      <?php foreach ($post as $tampil) :?>
+      <?php foreach ($posts as $tampil) :?>
       <tr>
         <th scope="row"><?= $i++; ?></th>
         <td><?= $tampil['username']; ?></td>
         <td><?= $tampil['image'];?></td>
         <td><?= $tampil['score']; ?></td>
-        <td><?= $tampil['game_id']; ?></td>
+        <td><?= $tampil['username']; ?></td>
       </tr>
 <?php endforeach; ?>
       
