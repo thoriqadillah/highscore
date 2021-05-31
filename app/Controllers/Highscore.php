@@ -77,24 +77,6 @@ class Highscore extends BaseController {
 	
 	}
 
-	//buat nampilin halaman admin
-	public function admin() {
-		$where_condition = ['verified' => false];
-		$post_data = $this->post_model->get_post($where_condition); //post data hanya menampilkan image, score, dan username
-		
-		if ($this->session->get('logged_in') && $this->session->get('level') == 'admin') {
-			$data = [
-				'title' => 'Admin', //sebagai judul page, dikirim ke <title> pada view
-				'session_data' => $this->session->get(),
-				'posts' => $post_data,
-				'games' => $this->games
-			];
-			return view('admin/admin', $data);	
-		}
-
-		return redirect()->to('/login');
-	}
-
 	public function games($id) {
 		//cara kerjanya sama kaya admin, cuma ditambahin di $where_condition 'id' = $id
 	}
@@ -105,4 +87,5 @@ class Highscore extends BaseController {
 		
 		return redirect()->to('/');
 	}
+
 }
