@@ -19,7 +19,9 @@
     <?php if(isset($session_data)) {
       if($session_data['logged_in'] == true && $session_data['level'] == 'user') {
        echo $this->include('layout/navbar_in'); 
-      } 
+      } else if ($session_data['logged_in'] == true && $session_data['level'] == 'admin') {
+        echo $this->include('layout/navbar_admin'); 
+      }
     } else {
       echo $this->include('layout/navbar'); 
     } ?>
