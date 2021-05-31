@@ -11,29 +11,42 @@ class Post_model extends Model {
 
     public function __construct() {
         $this->db      = \Config\Database::connect();
-        $this->builder = $this->db->table('post');
     }
     
     public function get_post($where) {
-        $this->builder->select('image', 'score', 'username', 'game_id', 'verified', 'name')
-        ->join('users', 'users.email = post.user_email')
-        ->join('games', 'games.id = post.game_id')
+        $builder = $this->db->table('post p');
+        $builder->select(array('p.id','p.image', 'p.score', 'u.username', 'p.game_id', 'p.verified', 'g.name'))
+        ->join('users u', 'u.email=p.user_email')
+        ->join('games g', 'g.id=p.game_id')
         ->where($where)
-        ->groupBy('name')
-        ->orderBy('score', 'DESC');
-        $query = $this->builder->get();
+        ->orderBy('g.name', 'ASC')
+        ->orderBy('p.score', 'DESC');
+        $query = $builder->get();
 
         return $query;
     }
 
     public function get_post_by_game($where) {
-        $this->builder->select('image', 'score', 'username', 'game_id', 'verified', 'name')
-        ->join('users', 'users.email = post.user_email')
+        $builder = $this->db->table('post p');
+        $builder->select(array('p.id','p.image', 'p.score', 'u.username', 'p.game_id', 'p.verified', 'g.name'))
+        ->join('users u', 'u.email=p.user_email')
+        ->join('games g', 'g.id=p.game_id')
         ->where($where)
         ->orderBy('score', 'DESC');
-        $query = $this->builder->get();
+        $query = $builder->get();
 
         return $query;
     }
+
+    public function verify($id) {
+        $builder = $this->db->table('post');
+        $data = [
+            'verified' => true
+        ];
+        $builder->set($data)
+        ->where('id', $id)
+        ->update();
+    }
+
 
 }

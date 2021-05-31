@@ -19,7 +19,6 @@ class Admin_model extends Model {
                 'level' => 'admin'
             ];
             $session->set($data_session);
-
             return true;
         }
 
