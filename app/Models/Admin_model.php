@@ -25,4 +25,29 @@ class Admin_model extends Model {
         return false; 
     }
 
+    public function get_post_Inadmin() {
+        $builder = $this->db->table('post p');
+        $builder->select(array('p.id','p.image', 'p.score', 'u.username', 'p.game_id', 'p.verified', 'g.name'))
+        ->join('users u', 'u.email=p.user_email')
+        ->join('games g', 'g.id=p.game_id')
+        ->orderBy('score', 'DESC');
+        $query = $builder->get();
+
+        return $query;
+    }
+
+    public function search_InAdmin($keyword) {
+        $builder = $this->db->table('post p');
+        $builder->select(array('p.id','p.image', 'p.score', 'u.username', 'p.game_id', 'p.verified', 'g.name'))
+        ->join('users u', 'u.email=p.user_email')
+        ->join('games g', 'g.id=p.game_id')
+        ->like('u.username', $keyword)
+        ->orLike('p.score', $keyword)
+        ->orLike('g.name', $keyword)
+        ->orderBy('score', 'DESC');
+        $query = $builder->get();
+
+        return $query;
+    }
+
 }
