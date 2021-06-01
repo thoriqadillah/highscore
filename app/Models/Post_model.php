@@ -48,5 +48,27 @@ class Post_model extends Model {
         ->update();
     }
 
+    public function unverify($id) {
+        $builder = $this->db->table('post');
+        $data = [
+            'verified' => false
+        ];
+        $builder->set($data)
+        ->where('id', $id)
+        ->update();
+    }
+
+    public function search($keyword, $where) {
+        $builder = $this->db->table('post p');
+        $builder->select(array('p.id','p.image', 'p.score', 'u.username', 'p.game_id', 'p.verified', 'g.name'))
+        ->join('users u', 'u.email=p.user_email')
+        ->join('games g', 'g.id=p.game_id')
+        ->like('u.username', $keyword)
+        ->where($where)
+        ->orderBy('score', 'DESC');
+        $query = $builder->get();
+
+        return $query;
+    }
 
 }
