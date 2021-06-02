@@ -31,8 +31,15 @@ class Admin extends BaseController {
 	//ini buat halaman dashboard admin
 	public function index() {
 		$keyword = $this->req->getVar('keyword');
+
 		if ($keyword) {
-			$post_data = $this->admin_model->search_InAdmin($keyword)->getResultArray();
+			$result = $this->admin_model->search_InAdmin($keyword)->getResultArray();
+			if ($result == false) {
+				$post_data = $this->admin_model->get_post_Inadmin()->getResultArray();
+				$this->session->setFlashdata('pesan', 'Data tidak ditemukan');
+			} else {
+				$post_data = $result;
+			}
 		} else {
 			$post_data = $this->admin_model->get_post_Inadmin()->getResultArray(); //post data hanya menampilkan image, score, dan username
 		}
@@ -42,7 +49,8 @@ class Admin extends BaseController {
 				'title' => 'Admin', //sebagai judul page, dikirim ke <title> pada view
 				'session_data' => $this->session->get(),
 				'posts' => $post_data,
-				'games' => $this->games
+				'games' => $this->games,
+				'flashdata' => $this->session->getFlashdata('pesan')
 			];
 			return view('admin/indexAdmin', $data);	
 			
@@ -56,9 +64,14 @@ class Admin extends BaseController {
             'p.game_id' => $id
         ];
 		$keyword = $this->req->getVar('keyword');
-
 		if ($keyword) {
-			$post_data = $this->admin_model->search_InAdmin($keyword)->getResultArray();
+			$result = $this->admin_model->search_InAdmin($keyword)->getResultArray();
+			if ($result == false) {
+				$post_data = $this->post_model->get_post($where_condition)->getResultArray();
+				$this->session->setFlashdata('pesan', 'Data tidak ditemukan');
+			} else {
+				$post_data = $result;
+			}
 		} else {
 			$post_data = $this->post_model->get_post($where_condition)->getResultArray(); //post data hanya menampilkan image, score, dan username
 		}
@@ -68,7 +81,8 @@ class Admin extends BaseController {
 				'title' => 'Admin', //sebagai judul page, dikirim ke <title> pada view
 				'session_data' => $this->session->get(),
 				'posts' => $post_data,
-				'games' => $this->games
+				'games' => $this->games,
+				'flashdata' => $this->session->getFlashdata('pesan')
 			];
 			return view('admin/gamesAdmin', $data);	
         }

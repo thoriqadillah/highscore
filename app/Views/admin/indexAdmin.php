@@ -16,6 +16,12 @@
     </div>
 </div>
 
+<?php if ($flashdata) : ?>
+    <div class="alert alert-info" role="alert">
+        <?= $flashdata; ?>
+    </div>
+<?php endif; ?>
+
 <div class="row mt-3">
     <div class="col">
         <table class="table table-striped">
