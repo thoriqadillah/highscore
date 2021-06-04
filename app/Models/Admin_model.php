@@ -30,7 +30,8 @@ class Admin_model extends Model {
         $builder->select(array('p.id','p.image', 'p.score', 'u.username', 'p.game_id', 'p.verified', 'g.name'))
         ->join('users u', 'u.email=p.user_email')
         ->join('games g', 'g.id=p.game_id')
-        ->orderBy('score', 'DESC');
+        ->orderBy('g.name', 'ASC')
+        ->orderBy('p.score', 'DESC');
         $query = $builder->get();
 
         return $query;
