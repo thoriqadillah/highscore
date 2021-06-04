@@ -15,7 +15,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <?php foreach($games as $g) : ?>
-                        <a class="dropdown-item" href="/games/<?= $g['id']; ?>"><?= $g['name']; ?></a>
+                        <a class="dropdown-item" href="/highscore/games/<?= $g['id']; ?>"><?= $g['name']; ?></a>
                     <?php endforeach ?>
                     </div>
                 </li>
@@ -27,7 +27,8 @@
                     <?= $session_data['username']; ?>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/logout">Log out</a>
+                        <a class="dropdown-item" href="/highscore/user_post">My Post</a>
+                        <a class="dropdown-item" href="/highscore/logout">Log out</a>
                     </div>
                 </li>
             </ul>
