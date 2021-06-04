@@ -32,30 +32,10 @@ class Post_model extends Model {
         ->join('users u', 'u.email=p.user_email')
         ->join('games g', 'g.id=p.game_id')
         ->where($where)
-        ->orderBy('score', 'DESC');
+        ->orderBy('p.score', 'DESC');
         $query = $builder->get();
 
         return $query;
-    }
-
-    public function verify($id) {
-        $builder = $this->db->table('post');
-        $data = [
-            'verified' => true
-        ];
-        $builder->set($data)
-        ->where('id', $id)
-        ->update();
-    }
-
-    public function unverify($id) {
-        $builder = $this->db->table('post');
-        $data = [
-            'verified' => false
-        ];
-        $builder->set($data)
-        ->where('id', $id)
-        ->update();
     }
 
     public function search($keyword, $where) {
@@ -65,7 +45,8 @@ class Post_model extends Model {
         ->join('games g', 'g.id=p.game_id')
         ->like('u.username', $keyword)
         ->where($where)
-        ->orderBy('score', 'DESC');
+        ->orderBy('g.name', 'ASC')
+        ->orderBy('p.score', 'DESC');
         $query = $builder->get();
 
         return $query;

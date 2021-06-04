@@ -50,4 +50,23 @@ class Admin_model extends Model {
         return $query;
     }
 
+    public function verify($id) {
+        $builder = $this->db->table('post');
+        $data = [
+            'verified' => true
+        ];
+        $builder->set($data)
+        ->where('id', $id)
+        ->update();
+    }
+
+    public function unverify($id) {
+        $builder = $this->db->table('post');
+        $data = [
+            'verified' => false
+        ];
+        $builder->set($data)
+        ->where('id', $id)
+        ->update();
+    }
 }

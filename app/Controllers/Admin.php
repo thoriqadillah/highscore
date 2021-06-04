@@ -99,7 +99,7 @@ class Admin extends BaseController {
 
 	public function verify($id) {
 		if ($this->session->get('logged_in') && $this->session->get('level') == 'admin') {
-			$this->post_model->verify($id);
+			$this->admin_model->verify($id);
 			return redirect()->to('/admin');
 		}
 
@@ -108,7 +108,7 @@ class Admin extends BaseController {
 
 	public function unverify($id) {
 		if ($this->session->get('logged_in') && $this->session->get('level') == 'admin') {
-			$this->post_model->verify($id);
+			$this->admin_model->unverify($id);
 			return redirect()->to('/admin');
 		}
 
