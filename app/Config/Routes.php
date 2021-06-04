@@ -39,6 +39,7 @@ $routes->get('/registration', 'Registration::index');
 $routes->get('/home', 'Highscore::home');
 $routes->delete('/admin/(:num)', 'Admin::delete/$1');
 $routes->get('/admin', 'Admin::index');
+$routes->get('/upload', 'Highscore::upload');
 
 //semisal kita punya method detail untuk melihat suatu detail dari data pada Controller
 //tapi juga menggunakan getTabel() pada method dengan $slug sebagai identifier agar spesifik

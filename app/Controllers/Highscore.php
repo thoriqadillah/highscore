@@ -46,11 +46,14 @@ class Highscore extends BaseController {
 	}
 	
     public function upload() {
+		$games = $this->games_model->findAll();
 		if ($this->session->get('logged_in') == true && $this->session->get('level') == 'user') {
 			$data = [
 				'title' => 'Upload',
 				'session_data' => $this->session->get(),
-				'games' => $this->games
+				'games' => $this->games,
+				'games' => $games,
+				'validation' => $this->validation
 			];
 			
 			return view('upload', $data);	
@@ -58,6 +61,42 @@ class Highscore extends BaseController {
 		
 		return redirect()->to('/login');
     }
+
+	public function upload_post() {
+		$score = $this->req->getVar('score');
+		$image = $this->req->getVar('image');
+		$game_id = $this->req->getVar('game');
+
+		if(!$this->validate([
+            'score' => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => '{field} tidak boleh kosong'
+				]
+			],
+			'image' => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => 'screenshot tidak boleh kosong'
+				]
+			],
+			'game' => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => 'game tidak boleh kosong'
+				]
+			]
+        ])) {
+			return redirect()->to('/upload')->withInput()->with('validation', $this->validation);
+		}
+		
+		$this->post_model->save([
+			'image' => $image,
+			'score' => $score,
+			'user_email' => $this->session->get('email'),
+			'game_id' => $game_id
+		]);
+	}
 	
 	//buat nampilin halaman home buat user
 	public function home() {
