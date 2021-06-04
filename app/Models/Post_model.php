@@ -44,6 +44,8 @@ class Post_model extends Model {
         ->join('users u', 'u.email=p.user_email')
         ->join('games g', 'g.id=p.game_id')
         ->like('u.username', $keyword)
+        ->orLike('p.score', $keyword)
+        ->orLike('g.name', $keyword)
         ->where($where)
         ->orderBy('g.name', 'ASC')
         ->orderBy('p.score', 'DESC');
