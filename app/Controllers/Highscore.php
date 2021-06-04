@@ -32,17 +32,31 @@ class Highscore extends BaseController {
 
 	//ini buat halaman tamu
 	public function index() {
-		//bagian sini juga ngerjain kaya di function admin
-
-		$data = [
-			'title' => 'Guests', //sebagai judul page, dikirim ke <title> pada view
-			'games' => $this->games
-			//untuk memanggil model bisa dilempar ke $data sebagai key dan value, kemudian dikirim data ke view dan dilooping menggunakan foreach
-			//'namaVar' => '$this->namaModel->namaMethod();'
+		$where_condition = [
+			'p.verified' => true
 		];
+		$keyword = $this->req->getVar('keyword');
+
+		if ($keyword) {
+			$result = $this->post_model->search($keyword, $where_condition)->getResultArray();
+			if ($result == false) {
+				$post_data = $this->post_model->get_post($where_condition)->getResultArray();
+				$this->session->setFlashdata('pesan', 'Data tidak ditemukan');
+			} else {
+				$post_data = $result;
+			}
+		} else {
+			$post_data = $this->post_model->get_post($where_condition)->getResultArray(); //post data hanya menampilkan image, score, dan username
+		}
 		
-		// return view('index', $data); //memanggil view dengan mengirimkan data
-		return view('index', $data);
+		$data = [
+			'title' => 'Halaman Tamu', //sebagai judul page, dikirim ke <title> pada view
+			'posts' => $post_data,
+			'games' => $this->games,
+			'flashdata' => $this->session->getFlashdata('pesan')
+		];
+		return view('index', $data);	
+	
 	}
 	
     public function upload() {
@@ -61,16 +75,32 @@ class Highscore extends BaseController {
 	
 	//buat nampilin halaman home buat user
 	public function home() {
-		//bagian sini juga ngerjain kaya di function admin
+		$where_condition = [
+			'p.verified' => true
+		];
+		$keyword = $this->req->getVar('keyword');
+
+		if ($keyword) {
+			$result = $this->post_model->search($keyword, $where_condition)->getResultArray();
+			if ($result == false) {
+				$post_data = $this->post_model->get_post($where_condition)->getResultArray();
+				$this->session->setFlashdata('pesan', 'Data tidak ditemukan');
+			} else {
+				$post_data = $result;
+			}
+		} else {
+			$post_data = $this->post_model->get_post($where_condition)->getResultArray(); //post data hanya menampilkan image, score, dan username
+		}
 
 		if ($this->session->get('logged_in') == true && $this->session->get('level') == 'user') {
 			$data = [
 				'title' => 'Home', //sebagai judul page, dikirim ke <title> pada view
+				'posts' => $post_data,
 				'session_data' => $this->session->get(),
-				'games' => $this->games
+				'games' => $this->games,
+				'flashdata' => $this->session->getFlashdata('pesan')
 			];
-			
-			return view('home', $data);	
+			return view('home', $data);
 		}
 
 		return redirect()->to('/login');
@@ -78,7 +108,42 @@ class Highscore extends BaseController {
 	}
 
 	public function games($id) {
-		//cara kerjanya sama kaya admin, cuma ditambahin di $where_condition 'id' = $id
+		$where_condition = [
+			'p.verified' => true,
+			'p.game_id' => $id
+		];
+		$keyword = $this->req->getVar('keyword');
+
+		if ($keyword) {
+			$result = $this->post_model->search($keyword, $where_condition)->getResultArray();
+			if ($result == false) {
+				$post_data = $this->post_model->get_post_by_game($where_condition)->getResultArray();
+				$this->session->setFlashdata('pesan', 'Data tidak ditemukan');
+			} else {
+				$post_data = $result;
+			}
+		} else {
+			$post_data = $this->post_model->get_post_by_game($where_condition)->getResultArray(); //post data hanya menampilkan image, score, dan username
+		}
+		
+		if ($this->session->get('logged_in') == true && $this->session->get('level') == 'user') {
+			$data = [
+				'title' => 'Games', //sebagai judul page, dikirim ke <title> pada view
+				'posts' => $post_data,
+				'session_data' => $this->session->get(),
+				'games' => $this->games,
+				'flashdata' => $this->session->getFlashdata('pesan')
+			];
+			return view('games', $data);
+		}
+
+		$data = [
+			'title' => 'Games', //sebagai judul page, dikirim ke <title> pada view
+			'posts' => $post_data,
+			'games' => $this->games,
+			'flashdata' => $this->session->getFlashdata('pesan')
+			];
+		return view('games', $data);
 	}
 
 	public function logout() {
@@ -86,6 +151,26 @@ class Highscore extends BaseController {
 		$this->session->remove($array_items);
 		
 		return redirect()->to('/');
+	}
+
+	public function user_post() {
+		$where_condition = [
+			'u.username' => $this->session->get('username')
+		];
+		$post_data = $this->post_model->get_post($where_condition)->getResultArray(); 
+
+		if ($this->session->get('logged_in') == true && $this->session->get('level') == 'user') {
+			$data = [
+				'title' => 'My Post', //sebagai judul page, dikirim ke <title> pada view
+				'posts' => $post_data,
+				'session_data' => $this->session->get(),
+				'games' => $this->games,
+				'flashdata' => $this->session->getFlashdata('pesan')
+			];
+			return view('user_post', $data);
+		}
+
+		return redirect()->to('/login');
 	}
 
 }

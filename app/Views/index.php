@@ -2,29 +2,58 @@
 
 <?= $this->section('content'); ?>
 
+<div class="row mt-3">
+  <div class="col">
+      <h1>Selamat Datang di Leaderboard</h1>
+  </div>
+</div>
 
-<h1 align="center">Leaderboard Dinosaur Games</h1>
+<div class="row mt-3">
+    <div class="col-6">
+        <form action="" method="POST">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Cari..." name="keyword">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit" name="submit">Cari</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
-<table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Username</th>
-        <th scope="col">Image</th>
-        <th scope="col">Score</th>
-        <th scope="col">Game</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php $i = 1; ?>
-      <?php foreach ($posts as $tampil) :?>
-      <tr>
-        <th scope="row"><?= $i++; ?></th>
-        <td><?= $tampil['username']; ?></td>
-        <td><?= $tampil['image'];?></td>
-        <td><?= $tampil['score']; ?></td>
-        <td><?= $tampil['username']; ?></td>
-      </tr>
-<?php endforeach; ?>
-      
+<?php if ($flashdata) : ?>
+    <div class="alert alert-info" role="alert">
+        <?= $flashdata; ?>
+    </div>
+<?php endif; ?>
+
+<div class="row mt-3">
+    <div class="col">
+        <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Image</th>
+                <th scope="col">Score</th>
+                <th scope="col">Game</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $i = 1; ?>
+            <?php foreach ($posts as $p) :?>
+                <tr>
+                    <th scope="row"><?= $i++; ?></th>
+                    <td><?= $p['username']; ?></td>
+                    <td><?= $p['image'];?></td>
+                    <td><?= $p['score']; ?></td>
+                    <td><?= $p['name']; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+        </table>
+    </div>
+</div>
+
+
 <?= $this->endSection(); ?>
