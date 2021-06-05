@@ -65,25 +65,29 @@ class Highscore extends BaseController {
 	public function upload_post() {
 		$score = $this->req->getVar('score');
 		$image = $this->req->getVar('image');
-		$game_id = $this->req->getVar('game');
+		$game = $this->req->getVar('game');
 
 		if(!$this->validate([
             'score' => [
 				'rules' => 'required',
 				'errors' => [
-					'required' => '{field} tidak boleh kosong'
+					'required' => 'Score tidak boleh kosong'
 				]
 			],
 			'image' => [
-				'rules' => 'required',
+				'rules' => 'required|uploaded[image]|max_size[image,5120]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png]',
 				'errors' => [
-					'required' => 'screenshot tidak boleh kosong'
+					'required' => 'Screenshot tidak boleh kosong',
+					'uploaded' => 'Pilih gambar sampul terlebih dahulu',
+					'max_size' => 'Maksimal ukuran gambar adalah 5MB',
+					'is_image' => 'Yang Anda pilih bukan gambar',
+					'mime_in' => 'Yang Anda pilih bukan gambar'
 				]
 			],
 			'game' => [
 				'rules' => 'required',
 				'errors' => [
-					'required' => 'game tidak boleh kosong'
+					'required' => 'Game tidak boleh kosong'
 				]
 			]
         ])) {
@@ -94,7 +98,7 @@ class Highscore extends BaseController {
 			'image' => $image,
 			'score' => $score,
 			'user_email' => $this->session->get('email'),
-			'game_id' => $game_id
+			'game_id' => $game
 		]);
 	}
 	

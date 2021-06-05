@@ -5,12 +5,12 @@
 <div class="row">
     <div class="col-8">
         <h1 class="my-3">Upload Highscore Anda!</h1>
-        <form action="/highscore/upload_post" method="POST" >
+        <form action="/highscore/upload_post" method="POST" enctype="multipart/form-data">
             <?= csrf_field(); ?>
             <div class="form-group row">
                 <label for="score" class="col-sm-2 col-form-label">Score</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control  <?= ($validation->hasError('score') ? 'is-invalid' : '' ); ?>" id="score" name="score" autofocus> 
+                    <input type="text" class="form-control <?= ($validation->hasError('score') ? 'is-invalid' : '' ); ?>" id="score" name="score" autofocus> 
                     <div class="invalid-feedback">
                         <?= $validation->getError('score'); ?>
                     </div>
@@ -19,9 +19,12 @@
             <div class="form-group row">
                 <label for="image" class="col-sm-2 col-form-label">Screenshot</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control  <?= ($validation->hasError('image') ? 'is-invalid' : '' ); ?>" id="image" name="image">
-                    <div class="invalid-feedback">
-                        <?= $validation->getError('image'); ?>
+                    <div class="custom-file">
+                        <input type="file" name="image" class="custom-file-input <?= ($validation->hasError('image') ? 'is-invalid' : '' ); ?>" id="image">
+                        <div class="invalid-feedback">
+                            <?= $validation->getError('image'); ?>
+                        </div>
+                        <label class="custom-file-label" for="image">Pilih gambar...</label>
                     </div>
                 </div>
             </div>
