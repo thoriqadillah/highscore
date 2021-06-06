@@ -117,6 +117,12 @@ class Admin extends BaseController {
 
 	public function delete($id) {
 		if ($this->session->get('logged_in') && $this->session->get('level') == 'admin') {
+			$post_data = $this->post_model->find($id);
+			
+			if($post_data['image'] != 'default.png') {
+				unlink('img/'.$post_data['image']);
+			}
+
 			$this->post_model->delete($id);
 			return redirect()->to('/admin');
 		}

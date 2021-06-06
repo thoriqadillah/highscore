@@ -4,7 +4,8 @@ namespace App\Controllers;
 use App\Models\Users_model;  //mengambil Model pada folder Model dengan menggunakan namespace
 use App\Models\Admin_model;  
 use App\Models\Post_model;  
-use App\Models\Games_model;  
+use App\Models\Games_model;
+use CodeIgniter\CodeIgniter;
 
 class Highscore extends BaseController {
 	protected $users_model;
@@ -25,7 +26,7 @@ class Highscore extends BaseController {
 		$this->session = \Config\Services::session();
 
 		$this->req = \service('request');
-
+		
 		$this->games = $this->games_model->findAll();
 		$this->validation =  \Config\Services::validation();
 	}
@@ -63,25 +64,22 @@ class Highscore extends BaseController {
     }
 
 	public function upload_post() {
-		$score = $this->req->getVar('score');
-		$game = $this->req->getVar('game');
+		$request = \Config\Services::request();
+		$score = $request->getVar('score');
+		$game = $request->getVar('game');
 		
-		$image = $this->req->getFiles('image');
-		$image->move('img'); //pindahkan file ke folder public/img
-		$namaImage = $image->getName(); //ambil nama file
-
 		if(!$this->validate([
             'score' => [
-				'rules' => 'required',
+				'rules' => 'required|numeric',
 				'errors' => [
-					'required' => 'Score tidak boleh kosong'
+					'required' => 'Score tidak boleh kosong',
+					'numeric' => 'Score harus berupa angka',
 				]
 			],
 			'image' => [
-				'rules' => 'required|uploaded[image]|max_size[image,5120]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png]',
+				'rules' => 'uploaded[image]|max_size[image,5120]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png]',
 				'errors' => [
-					'required' => 'Screenshot tidak boleh kosong',
-					'uploaded' => 'Pilih gambar sampul terlebih dahulu',
+					'uploaded' => 'Screenshot tidak boleh kosong',
 					'max_size' => 'Maksimal ukuran gambar adalah 5MB',
 					'is_image' => 'Yang Anda pilih bukan gambar',
 					'mime_in' => 'Yang Anda pilih bukan gambar'
@@ -96,15 +94,18 @@ class Highscore extends BaseController {
         ])) {
 			return redirect()->to('/upload')->withInput();
 		}
-		
+
+		$image = $request->getFile('image');
+		$namaImage = $image->getRandomName(); //generate nama random buat gambar
+		$image->move('img', $namaImage);
 		
 		$this->post_model->save([
 			'image' => $namaImage,
 			'score' => $score,
-			'user_email' => $this->session->get('email'),
+			'user_email' => $this->session->get('user_email'),
 			'game_id' => $game
 		]);
-		$this->session->setFlashdata('berhasil', 'Berhasil memposting. Mohon ditunggu untuk diverifikasi terlebih dahulu');
+		$this->session->setFlashdata('berhasil', 'Berhasil memposting. Mohon tunggu untuk diverifikasi terlebih dahulu');
 		return \redirect()->to('/user_post');
 	}
 	

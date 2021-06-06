@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class Post_model extends Model {
     protected $table      = 'post'; //diisi nama tabel sesuai keinginan
     protected $useTimestamps = true;
-    protected $allowedFields = ['image', 'score', 'user_id'];
+    protected $allowedFields = ['image', 'score', 'user_id', 'user_email', 'game_id'];
     protected $builder;
     protected $db;
 

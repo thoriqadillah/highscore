@@ -16,7 +16,8 @@ class Users_model extends Model {
             $data_session = [
                 'username' => $user['username'],
                 'logged_in' => TRUE,
-                'level' => 'user'
+                'level' => 'user',
+                'user_email' => $user['email'],
             ];
             $session->set($data_session);
             return true;

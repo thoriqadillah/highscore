@@ -18,9 +18,12 @@
             </div>
             <div class="form-group row">
                 <label for="image" class="col-sm-2 col-form-label">Screenshot</label>
-                <div class="col-sm-10">
+                <div class="col-sm-2">
+                    <img src="/img/default.png" alt="default" class="img-thumbnail img-preview">
+                </div>
+                <div class="col-sm-8">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input  <?= ($validation->hasError('image') ? 'is-invalid' : '' ); ?>" name="image" id="image" multiple="multiple">
+                        <input type="file" class="custom-file-input  <?= ($validation->hasError('image') ? 'is-invalid' : '' ); ?>" name="image" id="image" multiple="multiple" onchange="previewImg()">
                         <div class="invalid-feedback">
                             <?= $validation->getError('image'); ?>
                         </div>
