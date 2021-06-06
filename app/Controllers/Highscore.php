@@ -77,8 +77,9 @@ class Highscore extends BaseController {
 				]
 			],
 			'image' => [
-				'rules' => 'uploaded[image]|max_size[image,5120]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png]',
+				'rules' => 'riquired|uploaded[image]|max_size[image,5120]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png]',
 				'errors' => [
+					'riquired' => 'Screenshot tidak boleh kosong',
 					'uploaded' => 'Screenshot tidak boleh kosong',
 					'max_size' => 'Maksimal ukuran gambar adalah 5MB',
 					'is_image' => 'Yang Anda pilih bukan gambar',
