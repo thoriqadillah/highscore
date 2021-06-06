@@ -15,6 +15,7 @@ class Users_model extends Model {
         if ($user && $password == $user["password"]) {
             $data_session = [
                 'username' => $user['username'],
+                'email' => $user['email'],
                 'logged_in' => TRUE,
                 'level' => 'user',
                 'user_email' => $user['email'],

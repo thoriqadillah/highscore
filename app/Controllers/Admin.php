@@ -67,13 +67,13 @@ class Admin extends BaseController {
 		if ($keyword) {
 			$result = $this->admin_model->search_InAdmin($keyword)->getResultArray();
 			if ($result == false) {
-				$post_data = $this->post_model->get_post($where_condition)->getResultArray();
+				$post_data = $this->post_model->get_post_by_game($where_condition)->getResultArray();
 				$this->session->setFlashdata('pesan', 'Data tidak ditemukan');
 			} else {
 				$post_data = $result;
 			}
 		} else {
-			$post_data = $this->post_model->get_post($where_condition)->getResultArray(); //post data hanya menampilkan image, score, dan username
+			$post_data = $this->post_model->get_post_by_game($where_condition)->getResultArray(); //post data hanya menampilkan image, score, dan username
 		}
 		
 		if ($this->session->get('logged_in') && $this->session->get('level') == 'admin') {
@@ -99,7 +99,7 @@ class Admin extends BaseController {
 
 	public function verify($id) {
 		if ($this->session->get('logged_in') && $this->session->get('level') == 'admin') {
-			$this->post_model->verify($id);
+			$this->admin_model->verify($id);
 			return redirect()->to('/admin');
 		}
 
@@ -108,7 +108,7 @@ class Admin extends BaseController {
 
 	public function unverify($id) {
 		if ($this->session->get('logged_in') && $this->session->get('level') == 'admin') {
-			$this->post_model->verify($id);
+			$this->admin_model->unverify($id);
 			return redirect()->to('/admin');
 		}
 

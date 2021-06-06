@@ -32,7 +32,7 @@
                 <th scope="col">Image</th>
                 <th scope="col">Score</th>
                 <th scope="col">Game</th>
-                <th scope="col"></th>
+                <th scope="col">Status</th>
                 <th scope="col"></th>
             </tr>
         </thead>
