@@ -105,7 +105,7 @@ class Highscore extends BaseController {
 			'game_id' => $game
 		]);
 		$this->session->setFlashdata('berhasil', 'Berhasil memposting. Mohon ditunggu untuk diverifikasi terlebih dahulu');
-		return \redirect()->to('/myPost');
+		return \redirect()->to('/user_post');
 	}
 	
 	//buat nampilin halaman home buat user
