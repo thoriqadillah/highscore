@@ -64,8 +64,11 @@ class Highscore extends BaseController {
 
 	public function upload_post() {
 		$score = $this->req->getVar('score');
-		$image = $this->req->getVar('image');
 		$game = $this->req->getVar('game');
+		
+		$image = $this->req->getFiles('image');
+		$image->move('img'); //pindahkan file ke folder public/img
+		$namaImage = $image->getName(); //ambil nama file
 
 		if(!$this->validate([
             'score' => [
@@ -91,15 +94,18 @@ class Highscore extends BaseController {
 				]
 			]
         ])) {
-			return redirect()->to('/upload')->withInput()->with('validation', $this->validation);
+			return redirect()->to('/upload')->withInput();
 		}
 		
+		
 		$this->post_model->save([
-			'image' => $image,
+			'image' => $namaImage,
 			'score' => $score,
 			'user_email' => $this->session->get('email'),
 			'game_id' => $game
 		]);
+		$this->session->setFlashdata('berhasil', 'Berhasil memposting. Mohon ditunggu untuk diverifikasi terlebih dahulu');
+		return \redirect()->to('/myPost');
 	}
 	
 	//buat nampilin halaman home buat user

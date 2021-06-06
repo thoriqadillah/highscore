@@ -20,11 +20,11 @@
                 <label for="image" class="col-sm-2 col-form-label">Screenshot</label>
                 <div class="col-sm-10">
                     <div class="custom-file">
-                        <input type="file" name="image" class="custom-file-input <?= ($validation->hasError('image') ? 'is-invalid' : '' ); ?>" id="image">
+                        <input type="file" class="custom-file-input  <?= ($validation->hasError('image') ? 'is-invalid' : '' ); ?>" name="image" id="image" multiple="multiple">
                         <div class="invalid-feedback">
                             <?= $validation->getError('image'); ?>
                         </div>
-                        <label class="custom-file-label" for="image">Pilih gambar...</label>
+                        <label class="custom-file-label" for="image">Choose file</label>
                     </div>
                 </div>
             </div>
@@ -48,5 +48,4 @@
         </form>
     </div>
 </div>
-
 <?= $this->endSection(); ?>
