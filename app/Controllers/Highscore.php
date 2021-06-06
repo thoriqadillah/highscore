@@ -165,7 +165,7 @@ class Highscore extends BaseController {
 				'posts' => $post_data,
 				'session_data' => $this->session->get(),
 				'games' => $this->games,
-				'flashdata' => $this->session->getFlashdata('pesan')
+				'flashdata' => $this->session
 			];
 			return view('user_post', $data);
 		}

@@ -8,6 +8,12 @@
   </div>
 </div>
 
+<?php if ($flashdata->getFlashdata('berhasil')) : ?>
+    <div class="alert alert-info" role="alert">
+        <?= $flashdata->getFlashdata('berhasil'); ?>
+    </div>
+<?php endif; ?>
+
 <div class="row mt-3">
     <div class="col">
         <table class="table table-striped">
