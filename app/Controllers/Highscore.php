@@ -4,7 +4,8 @@ namespace App\Controllers;
 use App\Models\Users_model;  //mengambil Model pada folder Model dengan menggunakan namespace
 use App\Models\Admin_model;  
 use App\Models\Post_model;  
-use App\Models\Games_model;  
+use App\Models\Games_model;
+use CodeIgniter\CodeIgniter;
 
 class Highscore extends BaseController {
 	protected $users_model;
@@ -25,7 +26,7 @@ class Highscore extends BaseController {
 		$this->session = \Config\Services::session();
 
 		$this->req = \service('request');
-
+		
 		$this->games = $this->games_model->findAll();
 		$this->validation =  \Config\Services::validation();
 	}
@@ -46,11 +47,14 @@ class Highscore extends BaseController {
 	}
 	
     public function upload() {
+		$games = $this->games_model->findAll();
 		if ($this->session->get('logged_in') == true && $this->session->get('level') == 'user') {
 			$data = [
 				'title' => 'Upload',
 				'session_data' => $this->session->get(),
-				'games' => $this->games
+				'games' => $this->games,
+				'games' => $games,
+				'validation' => $this->validation
 			];
 			
 			return view('upload', $data);	
@@ -58,6 +62,52 @@ class Highscore extends BaseController {
 		
 		return redirect()->to('/login');
     }
+
+	public function upload_post() {
+		$request = \Config\Services::request();
+		$score = $request->getVar('score');
+		$game = $request->getVar('game');
+		
+		if(!$this->validate([
+            'score' => [
+				'rules' => 'required|numeric',
+				'errors' => [
+					'required' => 'Score tidak boleh kosong',
+					'numeric' => 'Score harus berupa angka',
+				]
+			],
+			'image' => [
+				'rules' => 'uploaded[image]|max_size[image,5120]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png]',
+				'errors' => [
+					'uploaded' => 'Screenshot tidak boleh kosong',
+					'max_size' => 'Maksimal ukuran gambar adalah 5MB',
+					'is_image' => 'Yang Anda pilih bukan gambar',
+					'mime_in' => 'Yang Anda pilih bukan gambar'
+				]
+			],
+			'game' => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => 'Game tidak boleh kosong'
+				]
+			]
+        ])) {
+			return redirect()->to('/upload')->withInput();
+		}
+
+		$image = $request->getFile('image');
+		$namaImage = $image->getRandomName(); //generate nama random buat gambar
+		$image->move('img', $namaImage);
+		
+		$this->post_model->save([
+			'image' => $namaImage,
+			'score' => $score,
+			'user_email' => $this->session->get('user_email'),
+			'game_id' => $game
+		]);
+		$this->session->setFlashdata('berhasil', 'Berhasil memposting. Mohon tunggu untuk diverifikasi terlebih dahulu');
+		return \redirect()->to('/user_post');
+	}
 	
 	//buat nampilin halaman home buat user
 	public function home() {
