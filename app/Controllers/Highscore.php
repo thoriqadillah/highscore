@@ -4,7 +4,8 @@ namespace App\Controllers;
 use App\Models\Users_model;  //mengambil Model pada folder Model dengan menggunakan namespace
 use App\Models\Admin_model;  
 use App\Models\Post_model;  
-use App\Models\Games_model;  
+use App\Models\Games_model;
+use CodeIgniter\CodeIgniter;
 
 class Highscore extends BaseController {
 	protected $users_model;
@@ -134,6 +135,10 @@ class Highscore extends BaseController {
 				'games' => $this->games,
 				'flashdata' => $this->session->getFlashdata('pesan')
 			];
+
+			if (empty($data['posts'])) {
+				throw new \CodeIgniter\Exceptions\PageNotFoundException('Game tidak ditemukan');
+			}
 			return view('games', $data);
 		}
 
