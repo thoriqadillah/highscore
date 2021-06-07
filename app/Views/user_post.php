@@ -4,26 +4,13 @@
 
 <div class="row mt-3">
   <div class="col">
-      <h1>Selamat Datang di Leaderboard</h1>
+      <h1>My Post</h1>
   </div>
 </div>
 
-<div class="row mt-3">
-    <div class="col-6">
-        <form action="" method="POST">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Cari..." name="keyword">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="submit" name="submit">Cari</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<?php if ($flashdata) : ?>
+<?php if ($flashdata->getFlashdata('berhasil')) : ?>
     <div class="alert alert-info" role="alert">
-        <?= $flashdata; ?>
+        <?= $flashdata->getFlashdata('berhasil'); ?>
     </div>
 <?php endif; ?>
 
@@ -37,6 +24,7 @@
                 <th scope="col">Image</th>
                 <th scope="col">Score</th>
                 <th scope="col">Game</th>
+                <th scope="col">Status</th>
             </tr>
         </thead>
         <tbody>
@@ -48,6 +36,13 @@
                     <td><?= $p['image'];?></td>
                     <td><?= $p['score']; ?></td>
                     <td><?= $p['name']; ?></td>
+                    <td>
+                        <?php if ($p['verified'] == true) : ?>
+                            <p class="text-success">Terverifikasi</p>
+                        <?php else : ?>
+                            <p class="text-info">Belum Terverifikasi</p>
+                        <?php endif; ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
