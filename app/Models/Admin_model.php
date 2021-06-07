@@ -45,7 +45,8 @@ class Admin_model extends Model {
         ->like('u.username', $keyword)
         ->orLike('p.score', $keyword)
         ->orLike('g.name', $keyword)
-        ->orderBy('score', 'DESC');
+        ->orderBy('g.name', 'ASC')
+        ->orderBy('p.score', 'DESC');
         $query = $builder->get();
 
         return $query;

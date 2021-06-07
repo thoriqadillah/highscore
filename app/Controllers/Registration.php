@@ -44,28 +44,28 @@ class Registration extends BaseController {
             'email' => [
 				'rules' => 'required|is_unique[users.email]',
 				'errors' => [
-					'required' => '{field} tidak boleh kosong',
-					'is_unique' => '{field} sudah digunakan'
+					'required' => 'Email tidak boleh kosong',
+					'is_unique' => 'Email sudah digunakan'
 				]
 			],
 			'username' => [
 				'rules' => 'required|is_unique[users.username]',
 				'errors' => [
-					'required' => '{field} tidak boleh kosong',
-					'is_unique' => '{field} sudah digunakan'
+					'required' => 'Username tidak boleh kosong',
+					'is_unique' => 'Username sudah digunakan'
 				]
 			],
 			'password' => [
 				'rules' => 'required',
 				'errors' => [
-					'required' => '{field} tidak boleh kosong'
+					'required' => 'Password tidak boleh kosong'
 				]
 			],
 			'repeat-password' => [
 				'rules' => 'required|matches[password]',
 				'errors' => [
-					'required' => '{field} tidak boleh kosong',
-					'matches' => 'password tidak sama'
+					'required' => 'Password tidak boleh kosong',
+					'matches' => 'Password tidak sama'
 				]
 			]
         ])) {

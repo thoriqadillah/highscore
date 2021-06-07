@@ -45,13 +45,13 @@ class Login extends BaseController {
             'email' => [
 				'rules' => 'required',
 				'errors' => [
-					'required' => '{field} tidak boleh kosong'
+					'required' => 'Email tidak boleh kosong'
 				]
 			],
 			'password' => [
 				'rules' => 'required',
 				'errors' => [
-					'required' => '{field} tidak boleh kosong'
+					'required' => 'Password tidak boleh kosong'
 				]
 			]
         ])) {
