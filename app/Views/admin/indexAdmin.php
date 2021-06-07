@@ -20,6 +20,10 @@
     <div class="alert alert-info" role="alert">
         <?= $flashdata; ?>
     </div>
+<?php elseif ($terhapus) : ?>
+    <div class="alert alert-info" role="alert">
+        <?= $terhapus; ?>
+    </div>
 <?php endif; ?>
 
 <div class="row mt-3">
@@ -42,7 +46,7 @@
                 <tr>
                     <th scope="row"><?= $i++; ?></th>
                     <td><?= $p['username']; ?></td>
-                    <td><?= $p['image'];?></td>
+                    <td><img src="/img/<?= $p['image']; ?>" style="width: 300px;"></td>
                     <td><?= $p['score']; ?></td>
                     <td><?= $p['name']; ?></td>
                     <?php if ($p['verified'] == false) : ?>
@@ -55,11 +59,7 @@
                         </td>
                     <?php endif; ?>
                     <td>
-                        <form action="/admin/<?= $p['id']; ?>" method="POST">
-                            <?= csrf_field(); ?>
-                            <input type="hidden" name="_method" value="DELETE"/>
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus post tersebut?')">DELETE</button>
-                        </form>
+                        <a href="/admin/<?= $p['id']; ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus post tersebut?')">DELETE</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

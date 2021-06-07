@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class Post_model extends Model {
     protected $table      = 'post'; //diisi nama tabel sesuai keinginan
     protected $useTimestamps = true;
-    protected $allowedFields = ['image', 'score', 'user_id'];
+    protected $allowedFields = ['image', 'score', 'user_id', 'user_email', 'game_id'];
     protected $builder;
     protected $db;
 
@@ -52,6 +52,14 @@ class Post_model extends Model {
         $query = $builder->get();
 
         return $query;
+    }
+
+    public function findRow($where) {
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT * FROM post WHERE id = $where LIMIT 1");
+        $row   = $query->getRow();
+
+        return $row;
     }
 
 }

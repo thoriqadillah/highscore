@@ -61,13 +61,11 @@ class Highscore extends BaseController {
 	}
 	
     public function upload() {
-		$games = $this->games_model->findAll();
 		if ($this->session->get('logged_in') == true && $this->session->get('level') == 'user') {
 			$data = [
 				'title' => 'Upload',
 				'session_data' => $this->session->get(),
 				'games' => $this->games,
-				'games' => $games,
 				'validation' => $this->validation
 			];
 			
@@ -91,9 +89,8 @@ class Highscore extends BaseController {
 				]
 			],
 			'image' => [
-				'rules' => 'riquired|uploaded[image]|max_size[image,5120]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png]',
+				'rules' => 'uploaded[image]|max_size[image,5120]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png]',
 				'errors' => [
-					'riquired' => 'Screenshot tidak boleh kosong',
 					'uploaded' => 'Screenshot tidak boleh kosong',
 					'max_size' => 'Maksimal ukuran gambar adalah 5MB',
 					'is_image' => 'Yang Anda pilih bukan gambar',

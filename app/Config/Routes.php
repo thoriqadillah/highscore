@@ -37,7 +37,7 @@ $routes->get('/', 'Highscore::index');
 $routes->get('/login', 'Login::index');
 $routes->get('/registration', 'Registration::index');
 $routes->get('/home', 'Highscore::home');
-$routes->delete('/admin/(:num)', 'Admin::delete/$1');
+$routes->get('/admin/(:num)', 'Admin::delete/$1');
 $routes->get('/admin', 'Admin::index');
 $routes->get('/upload', 'Highscore::upload');
 $routes->get('/user_post', 'Highscore::user_post');

@@ -27,11 +27,10 @@ class Admin_model extends Model {
 
     public function get_post_Inadmin() {
         $builder = $this->db->table('post p');
-        $builder->select(array('p.id','p.image', 'p.score', 'u.username', 'p.game_id', 'p.verified', 'g.name'))
+        $builder->select(array('p.id','p.image', 'p.score', 'u.username', 'p.game_id', 'p.verified', 'g.name', 'p.created_at'))
         ->join('users u', 'u.email=p.user_email')
         ->join('games g', 'g.id=p.game_id')
-        ->orderBy('g.name', 'ASC')
-        ->orderBy('p.score', 'DESC');
+        ->orderBy('p.created_at', 'DESC');
         $query = $builder->get();
 
         return $query;
@@ -39,14 +38,14 @@ class Admin_model extends Model {
 
     public function search_InAdmin($keyword) {
         $builder = $this->db->table('post p');
-        $builder->select(array('p.id','p.image', 'p.score', 'u.username', 'p.game_id', 'p.verified', 'g.name'))
+        $builder->select(array('p.id','p.image', 'p.score', 'u.username', 'p.game_id', 'p.verified', 'g.name', 'p.created_at'))
         ->join('users u', 'u.email=p.user_email')
         ->join('games g', 'g.id=p.game_id')
         ->like('u.username', $keyword)
         ->orLike('p.score', $keyword)
         ->orLike('g.name', $keyword)
-        ->orderBy('g.name', 'ASC')
-        ->orderBy('p.score', 'DESC');
+        ->orderBy('p.created_at', 'DESC')
+        ->orderBy('g.name', 'ASC');
         $query = $builder->get();
 
         return $query;
@@ -70,5 +69,18 @@ class Admin_model extends Model {
         $builder->set($data)
         ->where('id', $id)
         ->update();
+    }
+
+    public function get_post_by_game_inAdmin($where) {
+        $builder = $this->db->table('post p');
+        $builder->select(array('p.id','p.image', 'p.score', 'u.username', 'p.game_id', 'p.verified', 'g.name'))
+        ->join('users u', 'u.email=p.user_email')
+        ->join('games g', 'g.id=p.game_id')
+        ->where($where)
+        ->orderBy('p.created_at', 'DESC')
+        ->orderBy('p.score', 'DESC');
+        $query = $builder->get();
+
+        return $query;
     }
 }

@@ -47,7 +47,7 @@
                 <tr>
                     <th scope="row"><?= $i++; ?></th>
                     <td><?= $p['username']; ?></td>
-                    <td><?= $p['image'];?></td>
+                    <td><img src="/img/<?= $p['image']; ?>" style="width: 300px;"></td>
                     <td><?= $p['score']; ?></td>
                     <td><?= $p['name']; ?></td>
                 </tr>

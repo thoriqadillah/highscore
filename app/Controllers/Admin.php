@@ -50,7 +50,8 @@ class Admin extends BaseController {
 				'session_data' => $this->session->get(),
 				'posts' => $post_data,
 				'games' => $this->games,
-				'flashdata' => $this->session->getFlashdata('pesan')
+				'flashdata' => $this->session->getFlashdata('pesan'),
+				'terhapus'  => $this->session->getFlashdata('terhapus')
 			];
 			return view('admin/indexAdmin', $data);	
 			
@@ -67,13 +68,13 @@ class Admin extends BaseController {
 		if ($keyword) {
 			$result = $this->admin_model->search_InAdmin($keyword)->getResultArray();
 			if ($result == false) {
-				$post_data = $this->post_model->get_post_by_game($where_condition)->getResultArray();
+				$post_data = $this->admin_model->get_post_by_game_inAdmin($where_condition)->getResultArray();
 				$this->session->setFlashdata('pesan', 'Data tidak ditemukan');
 			} else {
 				$post_data = $result;
 			}
 		} else {
-			$post_data = $this->post_model->get_post_by_game($where_condition)->getResultArray(); //post data hanya menampilkan image, score, dan username
+			$post_data = $this->admin_model->get_post_by_game_inAdmin($where_condition)->getResultArray(); //post data hanya menampilkan image, score, dan username
 		}
 		
 		if ($this->session->get('logged_in') && $this->session->get('level') == 'admin') {
@@ -82,7 +83,8 @@ class Admin extends BaseController {
 				'session_data' => $this->session->get(),
 				'posts' => $post_data,
 				'games' => $this->games,
-				'flashdata' => $this->session->getFlashdata('pesan')
+				'flashdata' => $this->session->getFlashdata('pesan'),
+				'terhapus'  => $this->session->getFlashdata('terhapus')
 			];
 			return view('admin/gamesAdmin', $data);	
         }
@@ -117,13 +119,16 @@ class Admin extends BaseController {
 
 	public function delete($id) {
 		if ($this->session->get('logged_in') && $this->session->get('level') == 'admin') {
-			$post_data = $this->post_model->find($id);
+			$post_data = $this->post_model->findRow($id);
 			
-			if($post_data['image'] != 'default.png') {
-				unlink('img/'.$post_data['image']);
+			
+			if ($post_data->image != 'default.png') {
+				unlink('img/'.$post_data->image);
 			}
-
+			
+			
 			$this->post_model->delete($id);
+			$this->session->setFlashdata('terhapus', 'Post berhasil dihapus');
 			return redirect()->to('/admin');
 		}
 
