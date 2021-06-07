@@ -183,9 +183,6 @@ class Highscore extends BaseController {
 				'flashdata' => $this->session->getFlashdata('pesan')
 			];
 
-			if (empty($data['posts'])) {
-				throw new \CodeIgniter\Exceptions\PageNotFoundException('Game tidak ditemukan');
-			}
 			return view('games', $data);
 		}
 
