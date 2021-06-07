@@ -11,6 +11,7 @@ class Registration extends BaseController {
 	protected $req;
 	protected $games_model;
 	protected $validation;
+	protected $session;
 
 	public function __construct() {
 		$this->users_model = new Users_model(); //untuk memanggil model sekali dan bisa digunakan berkali2
@@ -20,6 +21,7 @@ class Registration extends BaseController {
 
         $this->games = $this->games_model->findAll(); 
 		$this->validation =  \Config\Services::validation();
+		$this->session = \Config\Services::session();
 	}
 
     //tampilin halaman sign up
@@ -35,10 +37,7 @@ class Registration extends BaseController {
 
     //buat ngeproses sign up
     public function signup() {
-        $email = $this->req->getVar('email');
-		$username = $this->req->getVar('username');
-        $pass = $this->req->getVar('password');
-        $re_pass = $this->req->getVar('repeat-password');
+		$request = \Config\Services::request();
 
 		if(!$this->validate([
             'email' => [
@@ -72,14 +71,20 @@ class Registration extends BaseController {
 			return redirect()->to('/registration')->withInput()->with('validation', $this->validation);
 		}
 
-		if ($pass == $re_pass) {
-			$this->users_model->save([
-				'email' => $email,
-				'username' => $username,
-				'password' => $pass
-			]);
-			return \redirect()->to('/login');
-		}
+		$email = $request->getVar('email');
+		$username = $request->getVar('username');
+        $pass = $request->getVar('password');
+        $re_pass = $request->getVar('repeat-password');
+		
+		$this->users_model->insert([
+			'email' => $email,
+			'username' => $username,
+			'password' => \password_hash($pass, \PASSWORD_BCRYPT)
+		]);
+
+		$this->session->setFlashdata('registrasi', 'Pendaftaran akun berhasil. Silahkan login');
+		return \redirect()->to('/login');
+		
 
         return redirect()->to('/registration');
     }

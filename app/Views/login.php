@@ -1,11 +1,15 @@
 <?= $this->extend('layout/template'); ?>
 
 <?= $this->section('content'); ?>
-
 <div class="row mt-5">
   <div class="col-6">
     <h1>World's Rank Game</h1>
     <br>
+    <?php if ($login) : ?>
+        <div class="alert alert-info" role="alert">
+            <?= $login; ?>
+        </div>
+    <?php endif; ?>
     <form action="/login/signin" method="POST">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label" >Email</label>

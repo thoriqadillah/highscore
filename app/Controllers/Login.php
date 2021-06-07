@@ -11,6 +11,7 @@ class Login extends BaseController {
     protected $games_model;
     protected $req;
     protected $validation;
+    protected $session;
 
 	public function __construct() {
 		$this->users_model = new Users_model(); //untuk memanggil model sekali dan bisa digunakan berkali2
@@ -21,15 +22,16 @@ class Login extends BaseController {
         $this->games = $this->games_model->findAll();
 
         $this->validation =  \Config\Services::validation();
+        $this->session = \Config\Services::session();
 	}
 
     //tampilin halaman login
 	public function index() {
-        \session();
 		$data = [ //jangan lupa $data nanti dikirimkan ke return view ya
 			'title' => 'Home',
             'games' => $this->games,
-            'validation' => $this->validation
+            'validation' => $this->validation,
+            'login' => $this->session->getFlashdata('registrasi')
 		];
 
         return view('login', $data);

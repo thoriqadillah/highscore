@@ -11,8 +11,9 @@ class Admin_model extends Model {
     public function can_login_admin($email, $password) {
         $session = \Config\Services::session();
         $admin = $this->first($email);
+        $hashed_pass = $admin['password'];
 
-        if ($admin && $password == $admin["password"]) {
+        if ($admin && password_verify($password, $hashed_pass)) {
             $data_session = [
                 'username' => $admin['username'],
                 'logged_in' => TRUE,
