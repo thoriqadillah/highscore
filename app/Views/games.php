@@ -4,9 +4,7 @@
 
 <div class="row mt-3">
   <div class="col">
-      <?php foreach ($posts as $p) :?>
-            <h1><?= $p['name']; ?></h1>
-        <?php endforeach; ?>
+      <h1><?= $game_name; ?></h1>
   </div>
 </div>
 

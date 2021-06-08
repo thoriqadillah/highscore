@@ -160,6 +160,10 @@ class Highscore extends BaseController {
 			'p.verified' => true,
 			'p.game_id' => $id
 		];
+
+		$game = $this->games_model->findRow($id);
+		$game_name = $game->name;
+
 		$keyword = $this->req->getVar('keyword');
 
 		if ($keyword) {
@@ -180,6 +184,7 @@ class Highscore extends BaseController {
 				'posts' => $post_data,
 				'session_data' => $this->session->get(),
 				'games' => $this->games,
+				'game_name' => $game_name,
 				'flashdata' => $this->session->getFlashdata('pesan')
 			];
 
@@ -190,6 +195,7 @@ class Highscore extends BaseController {
 			'title' => 'Games', //sebagai judul page, dikirim ke <title> pada view
 			'posts' => $post_data,
 			'games' => $this->games,
+			'game_name' => $game_name,
 			'flashdata' => $this->session->getFlashdata('pesan')
 			];
 		return view('games', $data);
