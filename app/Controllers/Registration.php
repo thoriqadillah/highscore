@@ -74,12 +74,11 @@ class Registration extends BaseController {
 		$email = $request->getVar('email');
 		$username = $request->getVar('username');
         $pass = $request->getVar('password');
-        $re_pass = $request->getVar('repeat-password');
 		
 		$this->users_model->insert([
 			'email' => $email,
 			'username' => $username,
-			'password' => \password_hash($pass, \PASSWORD_BCRYPT)
+			'password' => password_hash($pass, PASSWORD_BCRYPT)
 		]);
 
 		$this->session->setFlashdata('registrasi', 'Pendaftaran akun berhasil. Silahkan login');

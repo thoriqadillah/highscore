@@ -10,9 +10,9 @@ class Users_model extends Model {
 
     public function can_login_user($email, $password) {
         $session = \Config\Services::session();
-        $user = $this->first($email);
+        $user = $this->find($email);
         $hashed_pass = $user['password'];
-
+        
         if ($user && password_verify($password, $hashed_pass)) {
             $data_session = [
                 'username' => $user['username'],
